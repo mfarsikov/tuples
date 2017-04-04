@@ -38,7 +38,7 @@ public class Duplet<A, B> {
         return new Duplet<>(entry.getKey(), entry.getValue());
     }
 
-    public static <A, B, C> Function<Duplet<A, B>, Stream<? extends C>> flat(Function<? super A, ? extends C> mapFirst,
+    public static <A, B, C> Function<Duplet<A, B>, Stream<C>> flat(Function<? super A, ? extends C> mapFirst,
                                                                              Function<? super B, ? extends C> mapSecond) {
         return duplet -> duplet.stream(mapFirst, mapSecond);
     }

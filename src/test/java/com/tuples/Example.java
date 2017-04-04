@@ -19,16 +19,16 @@ public class Example {
         numberToDayOfWeek.put(2, DayOfWeek.TUESDAY);
         numberToDayOfWeek.put(3, DayOfWeek.WEDNESDAY);
 
-        Map<Integer, String> numberToRoman = new HashMap<>();
-        numberToRoman.put(1, "I");
-        numberToRoman.put(2, "II");
-        numberToRoman.put(3, "III");
+        Map<String, String> numberToRoman = new HashMap<>();
+        numberToRoman.put("one", "I");
+        numberToRoman.put("two", "II");
+        numberToRoman.put("three", "III");
 
         List<Quartet<Integer, String, DayOfWeek, String>> tuples =
                 numberToWord.entrySet().stream()
                             .map(Duplet::of)
                             .map(Duplet.mapToTriplet((number, word) -> numberToDayOfWeek.get(number)))
-                            .map(Triplet.mapToQuartet((number, word, dayOfWeek) -> numberToRoman.get(number)))
+                            .map(Triplet.mapToQuartet((number, word, dayOfWeek) -> numberToRoman.get(word)))
                             .peek(System.out::println)
                             .collect(Collectors.toList());
 
@@ -48,5 +48,14 @@ public class Example {
         /*  Output:
             {1, one, MONDAY, I, 2, two, TUESDAY, II, 3, three, WEDNESDAY, III}
          */
+
+        Triplet<Integer, String, DayOfWeek> tuple1 = Unit.of(1)
+                                                         .add("Some string")
+                                                         .add(DayOfWeek.MONDAY);
+
+        Quartet<Integer, String, Object, DayOfWeek> tuple2 = Tuple.of(33,
+                                                                      "String",
+                                                                      new Object(),
+                                                                      DayOfWeek.SUNDAY);
     }
 }
