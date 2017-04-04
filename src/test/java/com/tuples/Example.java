@@ -29,7 +29,6 @@ public class Example {
                             .map(Duplet::of)
                             .map(Duplet.mapToTriplet((number, word) -> numberToDayOfWeek.get(number)))
                             .map(Triplet.mapToQuartet((number, word, dayOfWeek) -> numberToRoman.get(word)))
-                            .peek(System.out::println)
                             .collect(Collectors.toList());
 
         /*  Output:
