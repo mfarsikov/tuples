@@ -10,16 +10,16 @@ public class Unit<A> {
         this.first = first;
     }
 
-    public static <A, B> Function<Unit<A>, Pair<A, B>> mapToPair(Function<A, B> mapFirst) {
-        return unit -> Pair.of(unit.first, mapFirst.apply(unit.first));
+    public static <A, B> Function<Unit<A>, Duplet<A, B>> mapToDuplet(Function<A, B> mapFirst) {
+        return unit -> Duplet.of(unit.first, mapFirst.apply(unit.first));
     }
 
     public static <A> Unit<A> of(A first) {
         return new Unit<>(first);
     }
 
-    public <B> Pair<A, B> add(B second) {
-        return Pair.of(first, second);
+    public <B> Duplet<A, B> add(B second) {
+        return Duplet.of(first, second);
     }
 
     public <B> Unit<B> map(Function<A, B> mapFirst) {

@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 import com.tuples.misc.TriFunction;
 
-public class Triple<A, B, C> {
+public class Triplet<A, B, C> {
 
     private final A first;
 
@@ -14,18 +14,18 @@ public class Triple<A, B, C> {
 
     private final C third;
 
-    private Triple(A first, B second, C third) {
+    private Triplet(A first, B second, C third) {
         this.first = first;
         this.second = second;
         this.third = third;
     }
 
-    public static <A, B, C, D> Function<Triple<A, B, C>, Stream<? extends D>> flat(
+    public static <A, B, C, D> Function<Triplet<A, B, C>, Stream<? extends D>> flat(
             Function<? super A, ? extends D> mapFirst,
             Function<? super B, ? extends D> mapSecond,
             Function<? super C, ? extends D> mapThird) {
 
-        return triple -> triple.stream(mapFirst, mapSecond, mapThird);
+        return triplet -> triplet.stream(mapFirst, mapSecond, mapThird);
     }
 
     public <D> Stream<D> stream(Function<? super A, ? extends D> mapFirst,
@@ -35,10 +35,10 @@ public class Triple<A, B, C> {
         return Stream.of(mapFirst.apply(first), mapSecond.apply(second), mapThird.apply(third));
     }
 
-    public static <A, B, C, D> Function<Triple<A, B, C>, Quartet<A, B, C, D>> mapToQuartet(
+    public static <A, B, C, D> Function<Triplet<A, B, C>, Quartet<A, B, C, D>> mapToQuartet(
             TriFunction<? super A, ? super B, ? super C, ? extends D> fun) {
 
-        return triple -> triple.add(fun.apply(triple.first, triple.second, triple.third));
+        return triplet -> triplet.add(fun.apply(triplet.first, triplet.second, triplet.third));
     }
 
     public <D> Quartet<A, B, C, D> add(D fourth) {
@@ -46,9 +46,9 @@ public class Triple<A, B, C> {
         return Quartet.of(first, second, third, fourth);
     }
 
-    public static <A, B, C> Triple<A, B, C> of(A first, B second, C third) {
+    public static <A, B, C> Triplet<A, B, C> of(A first, B second, C third) {
 
-        return new Triple<>(first, second, third);
+        return new Triplet<>(first, second, third);
     }
 
     public A getFirst() {
@@ -65,7 +65,7 @@ public class Triple<A, B, C> {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Triple{");
+        final StringBuilder sb = new StringBuilder("Triplet{");
         sb.append("first=").append(first);
         sb.append(", second=").append(second);
         sb.append(", third=").append(third);
@@ -81,10 +81,10 @@ public class Triple<A, B, C> {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Triple<?, ?, ?> triple = (Triple<?, ?, ?>) o;
-        return Objects.equals(first, triple.first) &&
-               Objects.equals(second, triple.second) &&
-               Objects.equals(third, triple.third);
+        Triplet<?, ?, ?> triplet = (Triplet<?, ?, ?>) o;
+        return Objects.equals(first, triplet.first) &&
+               Objects.equals(second, triplet.second) &&
+               Objects.equals(third, triplet.third);
     }
 
     @Override

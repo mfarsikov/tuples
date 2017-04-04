@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class PairTest {
+public class Example {
     public static void main(String[] args) {
         Map<Integer, String> numberToWord = new HashMap<>();
         numberToWord.put(1, "one");
@@ -26,18 +26,27 @@ public class PairTest {
 
         List<Quartet<Integer, String, DayOfWeek, String>> tuples =
                 numberToWord.entrySet().stream()
-                            .map(Pair::of)
-                            .map(Pair.mapToTriple((number, word) -> numberToDayOfWeek.get(number)))
-                            .map(Triple.mapToQuartet((number, word, oddOrEven) -> numberToRoman.get(number)))
+                            .map(Duplet::of)
+                            .map(Duplet.mapToTriplet((number, word) -> numberToDayOfWeek.get(number)))
+                            .map(Triplet.mapToQuartet((number, word, dayOfWeek) -> numberToRoman.get(number)))
                             .peek(System.out::println)
                             .collect(Collectors.toList());
 
+        /*  Output:
+            Quartet{first=1, second=one, third=MONDAY, fourth=I}
+            Quartet{first=2, second=two, third=TUESDAY, fourth=II}
+            Quartet{first=3, second=three, third=WEDNESDAY, fourth=III}
+         */
+
         String joinedString = tuples.stream()
-                         .flatMap(Quartet.flat(Object::toString,
-                                               Function.identity(),
-                                               DayOfWeek::name,
-                                               Function.identity()))
-                         .collect(Collectors.joining(", "));
+                                    .flatMap(Quartet.flat(Object::toString,
+                                                          Function.identity(),
+                                                          DayOfWeek::name,
+                                                          Function.identity()))
+                                    .collect(Collectors.joining(", ", "{", "}"));
         System.out.println(joinedString);
+        /*  Output:
+            {1, one, MONDAY, I, 2, two, TUESDAY, II, 3, three, WEDNESDAY, III}
+         */
     }
 }
