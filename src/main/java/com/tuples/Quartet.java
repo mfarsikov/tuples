@@ -13,11 +13,35 @@ public class Quartet<A, B, C, D> {
 
     private final D fourth;
 
-    public Quartet(A first, B second, C third, D fourth) {
+    private Quartet(A first, B second, C third, D fourth) {
         this.first = first;
         this.second = second;
         this.third = third;
         this.fourth = fourth;
+    }
+
+    public static <A, B, C, D, E> Function<Quartet<A, B, C, D>, Stream<E>> flat(
+            Function<? super A, ? extends E> mapFirst,
+            Function<? super B, ? extends E> mapSecond,
+            Function<? super C, ? extends E> mapThird,
+            Function<? super D, ? extends E> mapFourth) {
+
+        return quartet -> quartet.stream(mapFirst, mapSecond, mapThird, mapFourth);
+    }
+
+    public <E> Stream<E> stream(Function<? super A, ? extends E> mapFirst,
+                                Function<? super B, ? extends E> mapSecond,
+                                Function<? super C, ? extends E> mapThird,
+                                Function<? super D, ? extends E> mapFourth) {
+
+        return Stream.of(mapFirst.apply(first),
+                         mapSecond.apply(second),
+                         mapThird.apply(third),
+                         mapFourth.apply(fourth));
+    }
+
+    public static <A, B, C, D> Quartet<A, B, C, D> of(A first, B second, C third, D fourth) {
+        return new Quartet<>(first, second, third, fourth);
     }
 
     public A getFirst() {
@@ -34,26 +58,6 @@ public class Quartet<A, B, C, D> {
 
     public D getFourth() {
         return fourth;
-    }
-
-    public <E> Stream<E> stream(Function<? super A, ? extends E> mapFirst,
-                                Function<? super B, ? extends E> mapSecond,
-                                Function<? super C, ? extends E> mapThird,
-                                Function<? super D, ? extends E> mapFourth) {
-
-        return Stream.of(mapFirst.apply(first),
-                         mapSecond.apply(second),
-                         mapThird.apply(third),
-                         mapFourth.apply(fourth));
-    }
-
-    public static <A, B, C, D, E> Function<Quartet<A, B, C, D>, Stream<E>> flat(
-            Function<? super A, ? extends E> mapFirst,
-            Function<? super B, ? extends E> mapSecond,
-            Function<? super C, ? extends E> mapThird,
-            Function<? super D, ? extends E> mapFourth) {
-
-        return quartet -> quartet.stream(mapFirst, mapSecond, mapThird, mapFourth);
     }
 
     @Override

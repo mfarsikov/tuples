@@ -1,4 +1,4 @@
-package com.tuples;
+package com.tuples.misc;
 
 @FunctionalInterface
 public interface TriFunction<A, B, C, R> {
