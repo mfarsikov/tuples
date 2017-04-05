@@ -1,4 +1,4 @@
-package com.tuples;
+package org.comprehension.tuple;
 
 import java.util.Map;
 import java.util.Objects;
@@ -19,10 +19,12 @@ public class Duplet<A, B> {
 
     public static <A, B, C> Function<Duplet<A, B>, Triplet<A, B, C>> mapToTriplet(
             BiFunction<? super A, ? super B, ? extends C> fun) {
+
         return duplet -> duplet.compute(fun);
     }
 
     public <C> Triplet<A, B, C> compute(BiFunction<? super A, ? super B, ? extends C> f) {
+
         return add(f.apply(first, second));
     }
 
@@ -39,7 +41,7 @@ public class Duplet<A, B> {
     }
 
     public static <A, B, C> Function<Duplet<A, B>, Stream<C>> flat(Function<? super A, ? extends C> mapFirst,
-                                                                             Function<? super B, ? extends C> mapSecond) {
+                                                                   Function<? super B, ? extends C> mapSecond) {
         return duplet -> duplet.stream(mapFirst, mapSecond);
     }
 
@@ -48,25 +50,28 @@ public class Duplet<A, B> {
         return Stream.of(firstMap.apply(first), secondMap.apply(second));
     }
 
+    public <C> Duplet<C, B> mapFirst(Function<? super A, ? extends C> firstMap) {
+
+        return map(firstMap, Function.identity());
+    }
+
+    public <C, D> Duplet<C, D> map(Function<? super A, ? extends C> firstMap,
+                                   Function<? super B, ? extends D> secondMap) {
+
+        return new Duplet<>(firstMap.apply(first), secondMap.apply(second));
+    }
+
+    public <C> Duplet<A, C> mapSecond(Function<? super B, ? extends C> secondMap) {
+
+        return map(Function.identity(), secondMap);
+    }
+
     public A getFirst() {
         return first;
     }
 
     public B getSecond() {
         return second;
-    }
-
-    public <C> Duplet<C, B> mapFirst(Function<? super A, ? extends C> firstMap) {
-        return map(firstMap, Function.identity());
-    }
-
-    public <C, D> Duplet<C, D> map(Function<? super A, ? extends C> firstMap,
-                                   Function<? super B, ? extends D> secondMap) {
-        return new Duplet<>(firstMap.apply(first), secondMap.apply(second));
-    }
-
-    public <C> Duplet<A, C> mapSecond(Function<? super B, ? extends C> secondMap) {
-        return map(Function.identity(), secondMap);
     }
 
     @Override

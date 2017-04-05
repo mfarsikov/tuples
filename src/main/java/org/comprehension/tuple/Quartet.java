@@ -1,8 +1,10 @@
-package com.tuples;
+package org.comprehension.tuple;
 
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
+
+import org.comprehension.tuple.misc.QuatroFunction;
 
 public class Quartet<A, B, C, D> {
     private final A first;
@@ -40,8 +42,18 @@ public class Quartet<A, B, C, D> {
                          mapFourth.apply(fourth));
     }
 
+    private <E> Quintet<A, B, C, D, E> add(E fifth) {
+        return Quintet.of(first, second, third, fourth, fifth);
+    }
+
     public static <A, B, C, D> Quartet<A, B, C, D> of(A first, B second, C third, D fourth) {
         return new Quartet<>(first, second, third, fourth);
+    }
+
+    public static <A, B, C, D, E> Function<Quartet<A, B, C, D>, Quintet<A, B, C, D, E>> mapToQuintet(
+            QuatroFunction<? super A, ? super B, ? super C, ? super D, ? extends E> function
+    ) {
+        return quartet -> quartet.add(function.apply(quartet.first, quartet.second, quartet.third, quartet.fourth));
     }
 
     public A getFirst() {

@@ -1,4 +1,4 @@
-package com.tuples;
+package org.comprehension.tuple;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -10,20 +10,20 @@ public class Unit<A> {
         this.first = first;
     }
 
-    public static <A, B> Function<Unit<A>, Duplet<A, B>> mapToDuplet(Function<A, B> mapFirst) {
+    public static <A, B> Function<Unit<A>, Duplet<A, B>> mapToDuplet(Function<? super A, ? extends B> mapFirst) {
         return unit -> Duplet.of(unit.first, mapFirst.apply(unit.first));
-    }
-
-    public static <A> Unit<A> of(A first) {
-        return new Unit<>(first);
     }
 
     public <B> Duplet<A, B> add(B second) {
         return Duplet.of(first, second);
     }
 
-    public <B> Unit<B> map(Function<A, B> mapFirst) {
-        return new Unit<B>(mapFirst.apply(first));
+    public <B> Unit<B> map(Function<? super A, ? extends B> mapFirst) {
+        return new Unit<>(mapFirst.apply(first));
+    }
+
+    public static <A> Unit<A> of(A first) {
+        return new Unit<>(first);
     }
 
     public A getFirst() {

@@ -1,12 +1,12 @@
-package com.tuples;
+package org.comprehension.tuple;
 
 public class Tuple {
 
     private Tuple() {
     }
 
-    public static <A> Unit<A> of(A firtst) {
-        return Unit.of(firtst);
+    public static <A> Unit<A> of(A first) {
+        return Unit.of(first);
     }
 
     public static <A, B> Duplet<A, B> of(A first, B second) {
@@ -20,4 +20,8 @@ public class Tuple {
     public static <A, B, C, D> Quartet<A, B, C, D> of(A first, B second, C third, D fourth) {
         return Quartet.of(first, second, third, fourth);
     }
+    public static <A, B, C, D,E> Quintet<A, B, C, D,E> of(A first, B second, C third, D fourth, E fifth) {
+        return Quintet.of(first, second, third, fourth, fifth);
+    }
+
 }

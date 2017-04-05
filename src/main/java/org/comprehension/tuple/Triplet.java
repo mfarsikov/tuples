@@ -1,10 +1,10 @@
-package com.tuples;
+package org.comprehension.tuple;
 
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import com.tuples.misc.TriFunction;
+import org.comprehension.tuple.misc.TriFunction;
 
 public class Triplet<A, B, C> {
 
@@ -20,7 +20,7 @@ public class Triplet<A, B, C> {
         this.third = third;
     }
 
-    public static <A, B, C, D> Function<Triplet<A, B, C>, Stream<? extends D>> flat(
+    public static <A, B, C, D> Function<Triplet<A, B, C>, Stream<D>> flat(
             Function<? super A, ? extends D> mapFirst,
             Function<? super B, ? extends D> mapSecond,
             Function<? super C, ? extends D> mapThird) {

@@ -1,4 +1,4 @@
-package com.tuples;
+package org.comprehension.tuple;
 
 import java.time.DayOfWeek;
 import java.util.HashMap;
@@ -48,13 +48,21 @@ public class Example {
             {1, one, MONDAY, I, 2, two, TUESDAY, II, 3, three, WEDNESDAY, III}
          */
 
-        Triplet<Integer, String, DayOfWeek> tuple1 = Unit.of(1)
-                                                         .add("Some string")
-                                                         .add(DayOfWeek.MONDAY);
+        Triplet<Integer, String, DayOfWeek> tuple1 = Tuple.of(1)
+                                                          .add("Some string")
+                                                          .add(DayOfWeek.MONDAY);
 
         Quartet<Integer, String, Object, DayOfWeek> tuple2 = Tuple.of(33,
                                                                       "String",
                                                                       new Object(),
                                                                       DayOfWeek.SUNDAY);
+        Function<Integer, Integer> twice = i -> i * 2;
+        Function<Integer, Double> quarter = i -> i / 4.0;
+        Function<String, String> addMartin = s -> s + "Martin";
+
+        Duplet<Double, String> tuple = Tuple.of(1, "hello ")
+                                            .map(twice, addMartin)
+                                            .mapFirst(quarter)
+                                            .mapSecond(String::toUpperCase);
     }
 }
