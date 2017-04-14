@@ -6,6 +6,12 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+/**
+ * Duplet is a pair of two objects of different types.
+ *
+ * @param <A> first element of Duplet
+ * @param <B> second element of Duplet
+ */
 public class Duplet<A, B> {
 
     private final A first;
@@ -17,17 +23,46 @@ public class Duplet<A, B> {
         this.second = second;
     }
 
+    /**
+     * Maps Duplet to Triplet, using provided BiFunction for computing third element of Triplet.
+     * Useful in Stream API:
+     * <pre>
+     * {@code
+     *      Stream<Triplet<Integer, Integer, Integer>> s = Stream.of(Tuple.of(1,2))
+     *                                .map(Duplet.mapToTriplet((a, b) -> a + b);
+     * }
+     * </pre>
+     *
+     * @param fun function taking both Duplet's elements as parameters, and returning third element
+     * @param <A> first element
+     * @param <B> second element
+     * @param <C> third element
+     * @return Mapping function Duplet -> Triplet
+     */
     public static <A, B, C> Function<Duplet<A, B>, Triplet<A, B, C>> mapToTriplet(
             BiFunction<? super A, ? super B, ? extends C> fun) {
 
         return duplet -> duplet.compute(fun);
     }
 
-    public <C> Triplet<A, B, C> compute(BiFunction<? super A, ? super B, ? extends C> f) {
+    /**
+     * Transforms Duplet to Triplet, using provided BiFunction
+     *
+     * @param fun function taking both Duplet's elements as parameters, and returning third element
+     * @param <C> third element
+     * @return Triplet where first two elements same as in Duplet, and third value is computed by provided function
+     */
+    public <C> Triplet<A, B, C> compute(BiFunction<? super A, ? super B, ? extends C> fun) {
 
-        return add(f.apply(first, second));
+        return add(fun.apply(first, second));
     }
 
+    /**
+     * Transforms Duplet to Triplet, using provided value
+     * @param third third element for triplet
+     * @param <C> third element
+     * @return Triplet where first two elements same as in Duplet
+     */
     public <C> Triplet<A, B, C> add(C third) {
         return Triplet.of(first, second, third);
     }
